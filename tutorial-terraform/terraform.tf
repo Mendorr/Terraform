@@ -1,0 +1,3 @@
+// 1. ANTES INSTALA EL PLUGIN DE TU IDE PARA TERRAFORM
+// La configuración de Terraform se crea con bloques (Cada parte con corchetes bloque {...}) que definen las partes de la infraestructura.
+// terraform.tf configura Terraform. Versiones, credenciales, proveedores y plugins a instalar...
