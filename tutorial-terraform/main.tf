@@ -32,3 +32,42 @@
 // Cada proveedor utiliza un método diferente.
 // Consultar documentación
 
+// 2.1 RECURSOS
+// RED
+resource "oci_core_vcn" "example_vcn" {
+  compartment_id = var.tenancy_ocid
+  cidr_block     = "10.0.0.0/16"
+  display_name   = "example-vcn"
+}
+
+resource "oci_core_subnet" "example_subnet" {
+  compartment_id      = var.tenancy_ocid
+  vcn_id              = oci_core_vcn.example_vcn.id
+  cidr_block          = "10.0.0.0/24"
+  display_name        = "example-subnet"
+  availability_domain = "V1"
+}
+
+resource "oci_core_internet_gateway" "example_ig" {
+  compartment_id = var.tenancy_ocid
+  vcn_id         = oci_core_vcn.example_vcn.id
+  display_name   = "example-ig"
+}
+
+// INSTANCIA
+resource "oci_core_instance" "example" {
+  availability_domain = "V1"
+  compartment_id      = var.tenancy_ocid
+  shape               = "VM.Standard.E2.1.Micro"
+  display_name        = "test-instance"
+
+  create_vnic_details {
+    subnet_id = "ocid1.subnet.oc1..xxxx"
+    assign_public_ip = true
+  }
+
+  source_details {
+    source_type = "image"
+    image_id    = "ocid1.image.oc1..xxxx"
+  }
+}
