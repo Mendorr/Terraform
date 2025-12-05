@@ -5,25 +5,27 @@
 // 1.1 PROVEEDOR
 terraform {
   required_providers {
-    oci = {
-      source  = "hashicorp/oci"
-      version = "~> 4.0"
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0"
     }
   }
 }
 
 // 1.2 CONFIGURACIÓN
-provider "oci" {
-  tenancy_ocid     = ""
-  user_ocid        = ""
-  fingerprint      = ""
-  private_key_path = ""
-  region           = ""
+
+provider "docker" {}
+
+resource "docker_image" "nginx" {
+  name         = "nginx:latest"
+  keep_locally = false
 }
-# provider "oci" {
-#   tenancy_ocid     = var.tenancy_ocid
-#   user_ocid        = var.user_ocid
-#   fingerprint      = var.fingerprint
-#   private_key_path = var.key_file
-#   region           = var.region
-# }
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx.name
+  name  = "nginx-test"
+  ports {
+    internal = 80
+    external = 8080
+  }
+}

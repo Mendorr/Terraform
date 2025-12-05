@@ -9,9 +9,3 @@
 // Se cargaran todas las variables. Si la variables
 // se pasa por comando (-var) y no se añaden, se utilizarán los valores por defecto
 // $ terraform plan -var instance_type=t2.large
-
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "key_file" {}
-variable "region" {}
